@@ -15,3 +15,5 @@ class PostListView(ListView):
      
     # if not write this  method ,i must use name object_list 
     context_object_name = 'posts'
+    # for example if you have a posts object
+    paginate_by = 1
