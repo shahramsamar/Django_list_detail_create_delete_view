@@ -64,12 +64,12 @@ class PostCreateView(CreateView):
     # The form class is commented out here, but if you want to use a custom form instead of 
     # the default model form, you can define and use a `PostForm` class.
     # Uncomment the following line to use a custom form class.
-    # form_class = PostForm
+    form_class = PostForm
 
     # The fields of the model that will be displayed in the form. 
     # This list determines which fields are included in the form for the user to fill out.
     # The list includes author, title, content, status, category, and published_date.
-    fields = ['author', 'title', 'content', 'status', 'category', 'published_date']
+    # fields = ['author', 'title', 'content', 'status', 'category', 'published_date']
     
     # The template that will be used to render the form. 
     # It specifies the HTML file where the form will be displayed to the user.
@@ -80,3 +80,8 @@ class PostCreateView(CreateView):
     success_url = reverse_lazy('blog:post_list')
     # `reverse_lazy` is used here because it resolves the URL at runtime, 
     # after the URLconf has been loaded, which is necessary for class-based views.
+
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
