@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from blog import models
 
 
@@ -16,7 +16,7 @@ class PostListView(ListView):
     #      posts =models.Post.objects.all()
     #      return posts
      
-    # if not write this  method ,i must use name object_list 
+    # if not write this  method ,you must use name (object_list) 
     context_object_name = 'posts'
     
     # for example if you have a posts object
@@ -24,3 +24,11 @@ class PostListView(ListView):
     
     # when i use ordering, i dont use get_queryset
     ordering = '-id'
+    
+
+class PostDetailView(DetailView):
+    
+    # you must use in (object)
+    model = models.Post
+      
+ 
