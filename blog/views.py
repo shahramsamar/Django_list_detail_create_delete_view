@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView,DeleteView
 from blog import models
 from blog.form import PostForm
 
@@ -85,3 +85,13 @@ class PostEditView(UpdateView):
 
     template_name = 'blog/post_create.html'  # Template for rendering the form.
     success_url = reverse_lazy('blog:post_list')  # Redirects to the post list upon successful update.
+
+
+class PostDeleteView(DeleteView):
+    """
+    Handles deleting an existing blog post.
+    Renders a confirmation page and deletes the post upon confirmation.
+    """
+    template_name = 'blog/post_confirm_delete.html'  # Template for rendering the confirmation page.
+    model = models.Post  # Specifies the model associated with this view.
+    success_url = reverse_lazy('blog:post_list')  # Redirects to the post list upon successful deletion.

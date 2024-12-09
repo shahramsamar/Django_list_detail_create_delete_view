@@ -134,6 +134,7 @@
                     </a>
                     <div class="actions">
                         <a href="{% url 'blog:post_edit' pk=post.id %}" class="edit">Edit</a>
+                        <a href="{% url 'blog:post_delete' pk=post.id %}" class="delete">Delete</a>
                     </div>
                 </div>
             {% endfor %}

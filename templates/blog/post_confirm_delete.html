@@ -1,7 +1,7 @@
-<form method="post" >
+<form method="post">
     {% csrf_token %}
-    <p> Are you sure you want to delete "{{ posts }}"?</p>
+    <p>Are you sure you want to delete "{{ object }}"?</p>
 
-        <input type="submit" value="Confirm">
-        <!-- <input type="submit" value="exit"> -->
+    <input type="submit" value="Confirm" style="background-color: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+    <a href="javascript:history.back()" style="background-color: #3498db; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Back</a>
 </form>
