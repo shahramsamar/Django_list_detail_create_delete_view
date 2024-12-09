@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView
 from blog import models
 from blog.form import PostForm
 
@@ -55,33 +55,33 @@ class PostDetailView(DetailView):
 #         return super().form_valid(form)
 
 class PostCreateView(CreateView):
-    # This view handles the creation of a new blog post by rendering a form and saving the post once the form is valid.
-    
-    # The model associated with the view (in this case, it's the Post model).
-    # This tells Django that the form will create instances of the `Post` model.
-    model = models.Post
-    
-    # The form class is commented out here, but if you want to use a custom form instead of 
-    # the default model form, you can define and use a `PostForm` class.
-    # Uncomment the following line to use a custom form class.
-    form_class = PostForm
+    """
+    Handles the creation of a new blog post.
+    Renders a form for the user to fill out and saves the post upon validation.
+    """
+    model = models.Post  # Specifies the model associated with this view.
+    form_class = PostForm  # Custom form class for creating a post (uncomment to use).
+    # fields = ['author', 'title', 'content', 'status', 'category', 'published_date']  # Alternative to `form_class`.
 
-    # The fields of the model that will be displayed in the form. 
-    # This list determines which fields are included in the form for the user to fill out.
-    # The list includes author, title, content, status, category, and published_date.
-    # fields = ['author', 'title', 'content', 'status', 'category', 'published_date']
-    
-    # The template that will be used to render the form. 
-    # It specifies the HTML file where the form will be displayed to the user.
-    template_name = 'blog/post_create.html'
+    template_name = 'blog/post_create.html'  # Template for rendering the form.
+    success_url = reverse_lazy('blog:post_list')  # Redirects to the post list upon successful creation.
 
-    # The URL to which the user will be redirected after successfully creating a new post.
-    # In this case, after a successful form submission, the user will be redirected to the blog post list page.
-    success_url = reverse_lazy('blog:post_list')
-    # `reverse_lazy` is used here because it resolves the URL at runtime, 
-    # after the URLconf has been loaded, which is necessary for class-based views.
-
-    
     def form_valid(self, form):
+        """
+        Automatically assigns the current user as the author of the post.
+        """
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class PostEditView(UpdateView):
+    """
+    Handles editing an existing blog post.
+    Renders a form pre-filled with the post's data for updating.
+    """
+    model = models.Post  # Specifies the model associated with this view.
+    form_class = PostForm  # Custom form class for editing a post (uncomment to use).
+    # fields = ['author', 'title', 'content', 'status', 'category', 'published_date']  # Alternative to `form_class`.
+
+    template_name = 'blog/post_create.html'  # Template for rendering the form.
+    success_url = reverse_lazy('blog:post_list')  # Redirects to the post list upon successful update.
