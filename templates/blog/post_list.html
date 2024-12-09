@@ -7,17 +7,17 @@
     <style>
         /* General styling */
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f0f4f8;
             color: #333;
         }
 
-        h1, h2 {
+        h1 {
             text-align: center;
-            color: #555;
+            color: #2c3e50;
+            margin: 20px 0;
         }
 
         .container {
@@ -29,43 +29,58 @@
         .post {
             background: #fff;
             margin: 20px 0;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
         }
 
-        .post a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-
-        .post a:hover {
-            text-decoration: underline;
+        .post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .post small {
             display: block;
-            margin-top: 10px;
-            color: #666;
+            margin-bottom: 10px;
+            color: #7f8c8d;
         }
 
         .post p {
-            margin-top: 10px;
+            margin: 10px 0;
+            color: #34495e;
         }
 
         .actions {
-            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .actions a {
+            padding: 8px 15px;
+            border-radius: 5px;
             text-decoration: none;
-            color: #28a745;
-            margin-right: 10px;
             font-size: 0.9rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .actions a.edit {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .actions a.edit:hover {
+            background-color: #27ae60;
         }
 
         .actions a.delete {
-            color: #dc3545;
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .actions a.delete:hover {
+            background-color: #c0392b;
         }
 
         .pagination {
@@ -74,39 +89,28 @@
         }
 
         .pagination a {
-            color: #007BFF;
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 5px;
             text-decoration: none;
+            background-color: #3498db;
+            color: white;
             margin: 0 5px;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .pagination a:hover {
-            text-decoration: underline;
+            background-color: #2980b9;
+            transform: translateY(-3px);
         }
 
         .pagination .current {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .step-links a {
-            padding: 5px 10px;
-            border: 1px solid #ddd;
-            background: #fff;
-            margin: 2px;
-            border-radius: 5px;
-        }
-
-        .step-links a:hover {
-            background-color: #007BFF;
-            color: #fff;
-        }
-
-        .step-links .current {
-            padding: 5px 10px;
-            border: 1px solid #007BFF;
-            background: #007BFF;
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #bdc3c7;
             color: white;
             border-radius: 5px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -123,15 +127,14 @@
                         {% else %}
                             {{ post.published_date }}
                         {% endif %}
-                    </small> 
-                    <p>No:{{ post.id }} - title: {{ post.title }}</p>
+                    </small>
+                    <p><strong>No:</strong> {{ post.id }} - <strong>Title:</strong> {{ post.title }}</p>
                     <a href="{% url 'blog:post_detail' pk=post.id %}">
-                        <p>content:{{ post.content }}</p>  
+                        <p><strong>Content:</strong> {{ post.content }}</p>
                     </a>
                     <div class="actions">
                         <a href="{% url 'blog:post_edit' pk=post.id %}" class="edit">Edit</a>
                     </div>
-
                 </div>
             {% endfor %}
         {% else %}
@@ -139,7 +142,7 @@
         {% endif %}
 
         <div class="pagination">
-            <span class="step-links">
+            <span>
                 {% if page_obj.has_previous %}
                     <a href="?page=1">&laquo; First</a>
                     <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
